@@ -1,1 +1,93 @@
-Work in Progress
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Showcase</title>
+
+    <!-- Bootstrap CSS (Dark Mode) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+    
+        .card {
+        background-color: #2b2b2b;
+        border-color: #4a4a4a;
+        margin-bottom: 20px; /* Add some space at the bottom of each card */
+    }
+    
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mt-4 mb-4">My GitHub Showcase</h1>
+        <div id="showcase" class="row"> <!-- Add a row here -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (required for Bootstrap JavaScript components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script>
+        // Your GitHub username
+        const username = 'chekoduadarsh';
+
+        // Fetch repositories from GitHub API
+        fetch(`https://api.github.com/users/${username}/repos?type=public`)
+            .then(response => response.json())
+            .then(repositories => {
+                const showcaseDiv = document.getElementById('showcase');
+
+                repositories.forEach(repo => {
+                    const repoCard = document.createElement('div');
+                    repoCard.classList.add('card', 'col-md-4', 'repo-card', 'bg-dark', 'text-white', 'mb-4'); // Add 'mb-4' for margin-bottom
+
+                    const cardBody = document.createElement('div');
+                    cardBody.classList.add('card-body');
+
+                    const cardImg = document.createElement('img');
+                    cardImg.classList.add('card-img-top');
+                    cardImg.src = `https://picsum.photos/300/200?random=${Math.floor(Math.random() * 1000)}`; // Random image
+
+
+                    const repoName = document.createElement('h5');
+                    repoName.classList.add('card-title');
+                    repoName.textContent = repo.name;
+
+                    const repoDescription = document.createElement('p');
+                    repoDescription.classList.add('card-text');
+                    repoDescription.textContent = repo.description || 'No description available.';
+
+                    const repoLink = document.createElement('a');
+                    repoLink.href = repo.html_url;
+                    repoLink.classList.add('btn', 'btn-primary');
+                    repoLink.textContent = 'View on GitHub';
+
+                    cardBody.appendChild(repoName);
+                    cardBody.appendChild(repoDescription);
+                    cardBody.appendChild(repoLink);
+
+                    repoCard.appendChild(cardImg);
+                    repoCard.appendChild(cardBody);
+                    showcaseDiv.appendChild(repoCard);
+                });
+            })
+            .catch(error => console.error('Error fetching GitHub repositories:', error));
+    </script>
+</body>
+</html>
